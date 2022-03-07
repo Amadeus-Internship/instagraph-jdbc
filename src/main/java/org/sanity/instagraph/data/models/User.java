@@ -37,9 +37,10 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", profilePictureId=" + profilePictureId +
+                (getId() != -1 ? "id='" + getId() + '\'' : "") +
+                (username != null ? "username='" + username + '\'' : "") +
+                (password != null ? ", password='" + password + '\'' : "") +
+                (profilePictureId != -1 ? ", profilePictureId=" + profilePictureId : "") +
                 '}';
     }
 }

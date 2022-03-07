@@ -16,10 +16,10 @@ public class UsersDaoImpl extends BaseDao implements UsersDao {
 
     @Override
     protected Object mapObject(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String username = resultSet.getString("username");
-        String password = resultSet.getString("password");
-        int profilePictureId = resultSet.getInt("profile_picture_id");
+        int id = hasColumn(resultSet, "id") ? resultSet.getInt("id") : -1;
+        String username = hasColumn(resultSet, "username") ? resultSet.getString("username") : null;
+        String password = hasColumn(resultSet, "password") ? resultSet.getString("password") : null;
+        int profilePictureId = hasColumn(resultSet, "profile_picture_id") ? resultSet.getInt("profile_picture_id") : -1;
 
         User user = new User();
 

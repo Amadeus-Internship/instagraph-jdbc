@@ -12,7 +12,6 @@ public class CommentsDaoImpl extends BaseDao implements CommentsDao {
     public CommentsDaoImpl() {
         super();
     }
-
     @Override
     protected Object mapObject(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");

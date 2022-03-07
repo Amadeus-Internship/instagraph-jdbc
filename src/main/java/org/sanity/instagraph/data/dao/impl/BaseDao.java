@@ -22,6 +22,19 @@ public abstract class BaseDao {
         }
     }
 
+    public boolean executeBlank(String query) {
+        boolean result = false;
+
+        try {
+            Statement statement = connection.createStatement();
+            result = statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     protected List<Object> executeQuery(String query) {
         List<Object> resultObjects = new ArrayList<>();
 
@@ -37,6 +50,17 @@ public abstract class BaseDao {
         }
 
         return resultObjects;
+    }
+
+    protected boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columns = rsmd.getColumnCount();
+        for (int x = 1; x <= columns; x++) {
+            if (columnName.equals(rsmd.getColumnName(x))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected abstract Object mapObject(ResultSet resultSet) throws SQLException;
