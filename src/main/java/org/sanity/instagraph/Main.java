@@ -1,33 +1,46 @@
 package org.sanity.instagraph;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
+    public static Map<String, Object> initializeCommands() {
+        Map<String, Object> commands = new LinkedHashMap<>();
+
+        commands.put("init", null);
+        commands.put("dataset", null);
+        commands.put("insert", null);
+        commands.put("update", null);
+        commands.put("delete", null);
+        commands.put("query-users", null);
+        commands.put("query-cheaters", null);
+        commands.put("query-high-quality-pictures", null);
+        commands.put("query-comments-and-users", null);
+        commands.put("query-profile-pictures", null);
+        commands.put("query-spam-posts", null);
+        commands.put("query-most-popular-users", null);
+        commands.put("query-commenting-myself", null);
+        commands.put("query-user-top-posts", null);
+        commands.put("query-posts-and-commentators", null);
+        commands.put("query-init-procedure-post", null);
+        commands.put("query-init-procedure-filter", null);
+        commands.put("query-exec-procedure-post", null);
+        commands.put("query-exec-procedure-filter", null);
+
+        return commands;
+    }
+
     public static void main(String[] args) {
-        List<String> commands = new ArrayList<>();
+        Map<String, Object> commands = initializeCommands();
 
-        commands.add("init");
-        commands.add("dataset");
-        commands.add("insert");
-        commands.add("update");
-        commands.add("delete");
-        commands.add("query-users");
-        commands.add("query-cheaters");
-        commands.add("query-high-quality-pictures");
-        commands.add("query-comments-and-users");
-        commands.add("query-profile-pictures");
-        commands.add("query-spam-posts");
-        commands.add("query-most-popular-users");
-        commands.add("query-commenting-myself");
-        commands.add("query-user-top-posts");
-        commands.add("query-posts-and-commentators");
-        commands.add("query-init-procedure-post");
-        commands.add("query-init-procedure-filter");
-        commands.add("query-exec-procedure-post");
-        commands.add("query-exec-procedure-filter");
+        Scanner scanner = new Scanner(System.in);
 
+        String inputLine = "";
 
+        while(!(inputLine = scanner.nextLine()).equals("exit")) {
+            if(commands.containsKey(inputLine)) {
+//                commands.get(inputLine).execute();
+            }
+        }
     }
 
 

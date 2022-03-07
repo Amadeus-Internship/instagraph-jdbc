@@ -33,4 +33,13 @@ public class Comment extends BaseEntity {
     public void setPostId(int postId) {
         this.postId = postId;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "content='" + content + '\'' +
+                ", userId=" + userId +
+                ", postId=" + postId +
+                '}';
+    }
 }

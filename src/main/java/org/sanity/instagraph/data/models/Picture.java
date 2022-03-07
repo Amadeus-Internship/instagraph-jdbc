@@ -23,4 +23,12 @@ public class Picture extends BaseEntity {
     public void setSize(double size) {
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return "Picture{" +
+                "path='" + path + '\'' +
+                ", size=" + size +
+                '}';
+    }
 }

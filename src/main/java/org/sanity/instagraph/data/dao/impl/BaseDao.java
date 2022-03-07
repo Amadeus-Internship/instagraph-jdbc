@@ -8,7 +8,7 @@ public abstract class BaseDao {
     private static Connection connection;
 
     protected BaseDao() {
-
+        this.init();
     }
 
     private void init() {
@@ -22,18 +22,22 @@ public abstract class BaseDao {
         }
     }
 
-    protected void executeQuery(String query) {
+    protected List<Object> executeQuery(String query) {
+        List<Object> resultObjects = new ArrayList<>();
+
         try {
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery(query);
 
-            List<Object> resultSet = new ArrayList<>();
-
             while(results.next()) {
-                results.getInt("id");
+                resultObjects.add(this.mapObject(results));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return resultObjects;
     }
+
+    protected abstract Object mapObject(ResultSet resultSet) throws SQLException;
 }

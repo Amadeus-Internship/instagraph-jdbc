@@ -33,4 +33,13 @@ public class Post extends BaseEntity {
     public void setPictureId(int pictureId) {
         this.pictureId = pictureId;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "caption='" + caption + '\'' +
+                ", userId=" + userId +
+                ", pictureId=" + pictureId +
+                '}';
+    }
 }

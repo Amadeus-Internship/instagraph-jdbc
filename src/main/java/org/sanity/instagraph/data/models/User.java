@@ -33,4 +33,13 @@ public class User extends BaseEntity {
     public void setProfilePictureId(int profilePictureId) {
         this.profilePictureId = profilePictureId;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", profilePictureId=" + profilePictureId +
+                '}';
+    }
 }
