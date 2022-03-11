@@ -1,11 +1,21 @@
 package org.sanity.instagraph.data.models;
 
-public class Picture extends BaseEntity {
+public class GetHighQualityPicturesDto {
+    private int id;
+
     private String path;
 
     private double size;
 
-    public Picture() {
+    public GetHighQualityPicturesDto() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPath() {
@@ -22,13 +32,5 @@ public class Picture extends BaseEntity {
 
     public void setSize(double size) {
         this.size = size;
-    }
-
-    @Override
-    public String toString() {
-        return "Picture{" +
-                "path='" + path + '\'' +
-                ", size=" + size +
-                '}';
     }
 }

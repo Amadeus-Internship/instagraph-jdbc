@@ -1,5 +1,7 @@
 package org.sanity.instagraph.data.dao.impl;
 
+import org.sanity.instagraph.data.mappers.api.Mapper;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +37,7 @@ public abstract class BaseDao {
         return result;
     }
 
-    protected List<Object> executeQuery(String query) {
+    protected List<Object> executeQuery(String query, Mapper mapper) {
         List<Object> resultObjects = new ArrayList<>();
 
         try {
@@ -43,7 +45,7 @@ public abstract class BaseDao {
             ResultSet results = statement.executeQuery(query);
 
             while(results.next()) {
-                resultObjects.add(this.mapObject(results));
+                resultObjects.add(mapper.mapRow(results));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -63,5 +65,5 @@ public abstract class BaseDao {
         return false;
     }
 
-    protected abstract Object mapObject(ResultSet resultSet) throws SQLException;
+//    protected abstract Object mapObject(ResultSet resultSet) throws SQLException;
 }

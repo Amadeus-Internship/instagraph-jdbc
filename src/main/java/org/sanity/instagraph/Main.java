@@ -368,13 +368,15 @@ public class Main {
         commands.put("delete", null);
 
         commands.put("query-users", () -> new UsersDaoImpl()
-                .queryEntities("SELECT u.id, u.username FROM users AS u " +
-                        "ORDER BY u.id ASC")
+                .getUsers()
                 .forEach(System.out::println));
+
         commands.put("query-cheaters", null);
         commands.put("query-high-quality-pictures", null);
         commands.put("query-comments-and-users", null);
-        commands.put("query-profile-pictures", null);
+        commands.put("query-profile-pictures", () -> new UsersDaoImpl()
+                .getProfilePictures()
+                .forEach(System.out::println));
         commands.put("query-spam-posts", null);
         commands.put("query-most-popular-users", null);
         commands.put("query-commenting-myself", null);

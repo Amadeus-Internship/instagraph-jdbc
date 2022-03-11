@@ -1,6 +1,19 @@
 package org.sanity.instagraph.data.dao.api;
 
-import org.sanity.instagraph.data.models.User;
+import org.sanity.instagraph.data.models.*;
 
-public interface UsersDao extends Dao<User> {
+import java.util.List;
+
+public interface UsersDao {
+    List<GetUsersDto> getUsers();
+
+    List<GetCheatersDto> getCheaters();
+
+    List<GetProfilePicturesDto> getProfilePictures();
+
+    GetMostPopularUserDto getMostPopularUser();
+
+    List<GetCommentingMyselfDto> getCommetingMyself();
+
+    List<GetUserTopPostsDto> getUserTopPosts();
 }

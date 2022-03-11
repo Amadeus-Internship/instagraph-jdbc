@@ -1,6 +1,9 @@
 package org.sanity.instagraph.data.dao.api;
 
-import org.sanity.instagraph.data.models.Comment;
+import org.sanity.instagraph.data.models.GetCommentsAndUsersDto;
 
-public interface CommentsDao extends Dao<Comment> {
+import java.util.List;
+
+public interface CommentsDao {
+    List<GetCommentsAndUsersDto> getCommentsAndUsers();
 }
