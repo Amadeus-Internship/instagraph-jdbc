@@ -1,5 +1,6 @@
 package org.sanity.instagraph.data.dao.impl;
 
+import com.mysql.cj.jdbc.result.ResultSetImpl;
 import org.sanity.instagraph.data.mappers.api.Mapper;
 
 import java.sql.*;
@@ -35,6 +36,23 @@ public abstract class BaseDao {
         }
 
         return result;
+    }
+
+    protected List<Object> executeCallable(String callableSql, Mapper mapper) {
+        List<Object> resultObjects = new ArrayList<>();
+
+        try {
+            CallableStatement statement = connection.prepareCall(callableSql);
+            ResultSet results = statement.executeQuery();
+
+            while(((ResultSetImpl) results).getRows() != null && results.next()) {
+                resultObjects.add(mapper.mapRow(results));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultObjects;
     }
 
     protected List<Object> executeQuery(String query, Mapper mapper) {

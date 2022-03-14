@@ -1,6 +1,7 @@
 package org.sanity.instagraph.data.dao.impl;
 
 import org.sanity.instagraph.data.dao.api.UsersDao;
+import org.sanity.instagraph.data.mappers.impl.GetMostPopularUserDtoMapper;
 import org.sanity.instagraph.data.mappers.impl.GetProfilePicturesDtoMapper;
 import org.sanity.instagraph.data.mappers.impl.GetUsersDtoMapper;
 import org.sanity.instagraph.data.models.*;
@@ -48,7 +49,18 @@ public class UsersDaoImpl extends BaseDao implements UsersDao {
 
     @Override
     public GetMostPopularUserDto getMostPopularUser() {
-        return null;
+        String query = "SELECT u.id, u.username, " +
+                "(SELECT COUNT(p.id) FROM posts AS p WHERE p.user_id = u.id) AS posts, " +
+                "(SELECT COUNT(uf.follower_id) FROM users_followers AS uf WHERE uf.user_id = u.id) AS followers " +
+                "FROM users AS u " +
+                "ORDER BY followers DESC " +
+                "LIMIT 1;";
+
+        return super.executeQuery(query, new GetMostPopularUserDtoMapper())
+                .stream()
+                .map(entry -> (GetMostPopularUserDto) entry)
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

@@ -43,4 +43,14 @@ public class GetMostPopularUserDto {
     public void setFollowers(int followers) {
         this.followers = followers;
     }
+
+    @Override
+    public String toString() {
+        return "GetMostPopularUserDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", posts=" + posts +
+                ", followers=" + followers +
+                '}';
+    }
 }

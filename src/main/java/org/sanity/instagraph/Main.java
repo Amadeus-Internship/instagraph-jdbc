@@ -1,19 +1,20 @@
 package org.sanity.instagraph;
 
 import org.sanity.instagraph.core.Executable;
-import org.sanity.instagraph.data.dao.api.CommentsDao;
-import org.sanity.instagraph.data.dao.api.UsersDao;
 import org.sanity.instagraph.data.dao.impl.CommentsDaoImpl;
 import org.sanity.instagraph.data.dao.impl.CoreDaoImpl;
 import org.sanity.instagraph.data.dao.impl.UsersDaoImpl;
+import org.sanity.instagraph.data.models.PostProcedureCallDto;
+import org.sanity.instagraph.data.procedures.ProcedureManagerImpl;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static Map<String, Executable> initializeCommands() {
         Map<String, Executable> commands = new LinkedHashMap<>();
 
-        commands.put("init", () -> {
+        commands.put("init", (arguments) -> {
             CoreDaoImpl coreDao = new CoreDaoImpl();
 
             coreDao
@@ -63,7 +64,7 @@ public class Main {
                             ");");
         });
 
-        commands.put("dataset", () -> {
+        commands.put("dataset", (arguments) -> {
             CoreDaoImpl coreDao = new CoreDaoImpl();
 
             coreDao.executeBlankQuery(
@@ -348,7 +349,7 @@ public class Main {
                             "(5, 14);");
         });
 
-        commands.put("insert", () -> {
+        commands.put("insert", (arguments) -> {
             new CommentsDaoImpl().executeBlank(
                     "INSERT INTO comments(content,user_id,post_id) " +
                             "SELECT " +
@@ -361,48 +362,69 @@ public class Main {
                             "WHERE p.id BETWEEN 1 AND 10;");
         });
 
-        commands.put("update", () -> {
-
-        });
+        commands.put("update", (arguments) -> {});
 
         commands.put("delete", null);
 
-        commands.put("query-users", () -> new UsersDaoImpl()
+        commands.put("query-users", (arguments) -> new UsersDaoImpl()
                 .getUsers()
                 .forEach(System.out::println));
 
         commands.put("query-cheaters", null);
         commands.put("query-high-quality-pictures", null);
         commands.put("query-comments-and-users", null);
-        commands.put("query-profile-pictures", () -> new UsersDaoImpl()
+        commands.put("query-profile-pictures", (arguments) -> new UsersDaoImpl()
                 .getProfilePictures()
                 .forEach(System.out::println));
         commands.put("query-spam-posts", null);
-        commands.put("query-most-popular-users", null);
+        commands.put("query-most-popular-user", (arguments) -> System.out.println(new UsersDaoImpl()
+                .getMostPopularUser()));
         commands.put("query-commenting-myself", null);
         commands.put("query-user-top-posts", null);
         commands.put("query-posts-and-commentators", null);
-        commands.put("query-init-procedure-post", null);
-        commands.put("query-init-procedure-filter", null);
-        commands.put("query-exec-procedure-post", null);
-        commands.put("query-exec-procedure-filter", null);
+
+        commands.put("init-procedure-post", (arguments) -> new ProcedureManagerImpl(new CoreDaoImpl()).definePostProcedure());
+        commands.put("init-procedure-filter", (arguments) -> new ProcedureManagerImpl(new CoreDaoImpl()).defineFilterProcedure());
+        commands.put("exec-procedure-post", (arguments) -> {
+            PostProcedureCallDto postProcedureCallModel = new PostProcedureCallDto();
+
+            postProcedureCallModel.setUsername(arguments.get(0));
+            postProcedureCallModel.setPassword(arguments.get(1));
+            postProcedureCallModel.setCaption(arguments.get(2));
+            postProcedureCallModel.setPath(arguments.get(3));
+
+            new ProcedureManagerImpl(new CoreDaoImpl())
+                    .executePostProcedure(postProcedureCallModel);
+        });
+        commands.put("exec-procedure-filter", (arguments) -> {
+            new ProcedureManagerImpl(new CoreDaoImpl())
+                    .executeFilterProcedure(arguments.get(0))
+                    .forEach(System.out::println);
+        });
 
         return commands;
     }
+
+    private static final String EXIT_COMMAND = "exit";
+    private static final String EMPTY_STRING = "";
 
     public static void main(String[] args) {
         Map<String, Executable> commands = initializeCommands();
 
         Scanner scanner = new Scanner(System.in);
 
-        String inputLine = "";
+        String inputLine = EMPTY_STRING;
 
-        while (!(inputLine = scanner.nextLine()).equals("exit")) {
-            if (commands.containsKey(inputLine)) {
-                commands.get(inputLine).execute();
+        while (!(inputLine = scanner.nextLine()).equals(EXIT_COMMAND)) {
+            String[] inputParams = inputLine.split(", ");
+
+            String command = inputParams[0];
+
+            if (commands.containsKey(command)) {
+                commands.get(command).execute(Arrays.stream(inputParams).skip(1).collect(Collectors.toList()));
+                System.out.println("Executed...");
             }
         }
     }
-
-
+// exec-procedure-post, UnderSinduxrein, 4l8nYGTKMW, #gerry #sopol, src/folders/resources/images/mobile/blocked/digi/3ISlOl969f.digi
 }
