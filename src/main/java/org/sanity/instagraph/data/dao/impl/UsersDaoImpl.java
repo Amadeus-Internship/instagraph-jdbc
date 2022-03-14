@@ -1,13 +1,9 @@
 package org.sanity.instagraph.data.dao.impl;
 
 import org.sanity.instagraph.data.dao.api.UsersDao;
-import org.sanity.instagraph.data.mappers.impl.GetProfilePicturesDtoMapper;
-import org.sanity.instagraph.data.mappers.impl.GetUsersDtoMapper;
+import org.sanity.instagraph.data.mappers.impl.*;
 import org.sanity.instagraph.data.models.*;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,34 +26,69 @@ public class UsersDaoImpl extends BaseDao implements UsersDao {
 
     @Override
     public List<GetCheatersDto> getCheaters() {
-        return null;
-    }
+        String query = "SELECT u.id,u.username FROM users as u " +
+                "INNER JOIN users_followers As uf " +
+                "ON u.id = uf.user_id " +
+                "WHERE user_id = follower_id " +
+                "ORDER BY uf.user_id; ";
 
-    @Override
-    public List<GetProfilePicturesDto> getProfilePictures() {
-        String query = "SELECT u.id, u.username, CONCAT(p.size, 'KB') AS size FROM users AS u " +
-                "JOIN pictures AS p " +
-                "ON u.profile_picture_id = p.id " +
-                "WHERE u.profile_picture_id IN (SELECT internal_users.profile_picture_id FROM users AS internal_users WHERE internal_users.id <> u.id)";
-
-        return super.executeQuery(query, new GetProfilePicturesDtoMapper())
+        return super.executeQuery(query, new GetCheatersDtoMapper())
                 .stream()
-                .map(entry -> (GetProfilePicturesDto) entry)
+                .map(entry -> (GetCheatersDto) entry)
                 .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    public GetMostPopularUserDto getMostPopularUser() {
-        return null;
-    }
-
-    @Override
-    public List<GetCommentingMyselfDto> getCommetingMyself() {
-        return null;
-    }
-
-    @Override
     public List<GetUserTopPostsDto> getUserTopPosts() {
-        return null;
+        String query = "SELECT u.id, u.username,p.caption " +
+                "FROM users AS u " +
+                "LEFT JOIN posts AS p " +
+                "ON u.id = p.user_id " +
+                "INNER JOIN comments AS c " +
+                "ON p.id = c.post_id " +
+                "GROUP BY u.id " +
+                "ORDER BY u.id;";
+
+        return super.executeQuery(query, new GetUserTopPostsDtoMapper())
+                .stream()
+                .map(entry -> (GetUserTopPostsDto) entry)
+                .collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public List<GetMostPopularUserDto> getMostPopularUser() {
+        String query = "SELECT cf.id, u.username, COUNT(p.id) AS posts, cf.followers " +
+                "FROM ( " +
+                "SELECT uf.user_id AS id, " +
+                "COUNT(uf.follower_id) AS followers " +
+                "FROM users_followers AS uf " +
+                "GROUP BY uf.user_id) AS cf " +
+                "JOIN users AS u ON cf.id = u.id " +
+                "LEFT JOIN posts AS p ON cf.id = p.user_id " +
+                "GROUP BY cf.id " +
+                "ORDER BY followers DESC , u.id " +
+                "LIMIT 1;";
+
+        return super.executeQuery(query, new GetMostPopularUserDtoMapper())
+                .stream()
+                .map(entry -> (GetMostPopularUserDto) entry)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<GetCommentingMyselfDto> getCommentingMyself() {
+        String query = "SELECT u.id,u.username, " +
+                "SUM(IF(c.user_id = u.id, 1, 0)) AS my_comments " +
+                "FROM users AS u\n" +
+                "LEFT JOIN posts AS p ON u.id = p.user_id " +
+                "LEFT JOIN comments AS c ON p.id = c.post_id " +
+                "GROUP BY u.id " +
+                "ORDER BY my_comments DESC , u.id;";
+
+        return super.executeQuery(query, new GetCommentingMyselfDtoMapper())
+                .stream()
+                .map(entry -> (GetCommentingMyselfDto) entry)
+                .collect(Collectors.toUnmodifiableList());
+    }
+
 }

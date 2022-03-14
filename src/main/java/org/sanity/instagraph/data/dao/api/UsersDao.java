@@ -5,15 +5,14 @@ import org.sanity.instagraph.data.models.*;
 import java.util.List;
 
 public interface UsersDao {
+
     List<GetUsersDto> getUsers();
 
     List<GetCheatersDto> getCheaters();
 
-    List<GetProfilePicturesDto> getProfilePictures();
+    List<GetMostPopularUserDto> getMostPopularUser();
 
-    GetMostPopularUserDto getMostPopularUser();
-
-    List<GetCommentingMyselfDto> getCommetingMyself();
+    List<GetCommentingMyselfDto> getCommentingMyself();
 
     List<GetUserTopPostsDto> getUserTopPosts();
 }

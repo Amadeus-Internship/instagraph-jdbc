@@ -23,4 +23,12 @@ public class GetCheatersDto {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "GetCheatersDto{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }
