@@ -33,4 +33,14 @@ public class GetHighQualityPicturesDto {
     public void setSize(double size) {
         this.size = size;
     }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", path='" + path + '\'' +
+                ", size=" + size +
+                '}';
+    }
 }

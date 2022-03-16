@@ -3,6 +3,7 @@ package org.sanity.instagraph.data.models;
 public class GetCommentsAndUsersDto {
     private int id;
 
+
     private String fullComment;
 
     public GetCommentsAndUsersDto() {
@@ -22,5 +23,14 @@ public class GetCommentsAndUsersDto {
 
     public void setFullComment(String fullComment) {
         this.fullComment = fullComment;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", fullComment='" + fullComment + '\'' +
+                '}';
     }
 }

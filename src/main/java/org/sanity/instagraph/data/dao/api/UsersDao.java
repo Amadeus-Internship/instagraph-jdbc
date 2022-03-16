@@ -13,7 +13,7 @@ public interface UsersDao {
 
     GetMostPopularUserDto getMostPopularUser();
 
-    List<GetCommentingMyselfDto> getCommetingMyself();
+    List<GetCommentingMyselfDto> getCommentingMyself();
 
     List<GetUserTopPostsDto> getUserTopPosts();
 }

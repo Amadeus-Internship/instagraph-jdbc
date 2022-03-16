@@ -5,7 +5,7 @@ public class GetUserTopPostsDto {
 
     private String username;
 
-    private String post;
+    private String caption;
 
     public GetUserTopPostsDto() {
     }
@@ -26,11 +26,20 @@ public class GetUserTopPostsDto {
         this.username = username;
     }
 
-    public String getPost() {
-        return post;
+    public String getCaption() {
+        return caption;
     }
 
-    public void setPost(String post) {
-        this.post = post;
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", caption='" + caption + '\'' +
+                '}';
     }
 }

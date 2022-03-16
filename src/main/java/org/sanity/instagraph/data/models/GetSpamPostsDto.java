@@ -33,4 +33,13 @@ public class GetSpamPostsDto {
     public void setComments(int comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", caption='" + caption + '\'' +
+                ", comments=" + comments +
+                '}';
+    }
 }
