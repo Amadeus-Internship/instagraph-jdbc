@@ -19,7 +19,7 @@ public abstract class BaseDao {
             try {
                 String url = "jdbc:mysql://localhost:3306/instagraph?createDatabaseIfNotExist=true";
                 //TODO: change pass and/or username
-                connection = DriverManager.getConnection(url, "root", "103306bc");
+                connection = DriverManager.getConnection(url, "root", "1234");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
