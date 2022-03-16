@@ -6,7 +6,8 @@ import org.sanity.instagraph.data.models.PostProcedureCallDto;
 import java.util.List;
 
 public interface ProcedureManager {
-    void definePostProcedure();
+
+   void definePostProcedure();
 
     void defineFilterProcedure();
 

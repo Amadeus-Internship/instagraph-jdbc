@@ -46,7 +46,7 @@ public class GetMostPopularUserDto {
 
     @Override
     public String toString() {
-        return "GetMostPopularUserDto{" +
+        return "{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", posts=" + posts +

@@ -33,4 +33,13 @@ public class GetPostsAndCommentatorsDto {
     public void setUsers(int users) {
         this.users = users;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", caption='" + caption + '\'' +
+                ", users=" + users +
+                '}';
+    }
 }

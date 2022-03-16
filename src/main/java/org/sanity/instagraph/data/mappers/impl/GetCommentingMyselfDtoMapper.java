@@ -1,21 +1,18 @@
 package org.sanity.instagraph.data.mappers.impl;
 
 import org.sanity.instagraph.data.mappers.api.Mapper;
-import org.sanity.instagraph.data.models.GetMostPopularUserDto;
+import org.sanity.instagraph.data.models.GetCommentingMyselfDto;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GetMostPopularUserDtoMapper implements Mapper {
-
-
+public class GetCommentingMyselfDtoMapper implements Mapper {
     @Override
     public Object mapRow(ResultSet resultSet) throws SQLException {
-        return new GetMostPopularUserDto(){{
+         return new GetCommentingMyselfDto(){{
             setId(resultSet.getInt("id"));
             setUsername(resultSet.getString("username"));
-            setPosts(resultSet.getInt("posts"));
-            setFollowers(resultSet.getInt("followers"));
-        }};
+            setMyComments(resultSet.getInt("my_comments"));
+         }};
     }
 }

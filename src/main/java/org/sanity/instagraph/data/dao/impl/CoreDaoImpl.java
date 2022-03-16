@@ -11,7 +11,7 @@ public class CoreDaoImpl extends BaseDao {
         this.executeBlank(sqlQuery);
     }
 
-    public List<Object> executeCallable(String callableSql, Mapper mapper) {
+    public List<Object> executeCallable(String callableSql, Mapper mapper){
         return super.executeCallable(callableSql, mapper);
     }
 }

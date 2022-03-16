@@ -33,4 +33,13 @@ public class GetCommentingMyselfDto {
     public void setMyComments(int myComments) {
         this.myComments = myComments;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", myComments=" + myComments +
+                '}';
+    }
 }
